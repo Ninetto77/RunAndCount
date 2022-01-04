@@ -17,16 +17,19 @@ public class PlayerController : MonoBehaviour
     public int PlayerPoints=1;
     [ReadOnly]
     public float BestCountValue=0;
+    [ReadOnly]
+    public bool IsImmortal = false;
 
-
-
+    private PowerUpController _powerUpController;
     private Rigidbody _rigidbody;
     private bool isGrounded = true;
 
     void Start()
     {
         _rigidbody = GetComponent<Rigidbody>();
+        _powerUpController = GetComponent<PowerUpController>();
         PlayerPoints = 1;
+        IsImmortal = false;
     }
 
 
@@ -60,7 +63,7 @@ public class PlayerController : MonoBehaviour
         }
 
         timeToDamage += Time.deltaTime;
-        if (timeToDamage >= 1.5f)
+        if (timeToDamage >= .5f)
         {
             CanBeChange = true;
         }
@@ -71,6 +74,7 @@ public class PlayerController : MonoBehaviour
             {
                 BestCountValue = GameManager.Instance.Points;
             }
+            _powerUpController.ResetAllPowerUps() ;
             GameManager.Instance.FinishGame();
         }
     }
@@ -81,12 +85,35 @@ public class PlayerController : MonoBehaviour
         timeToDamage = 0;
     }
 
+
+    public void ChangeImmortality(bool isImmortal)
+    {
+        IsImmortal = isImmortal;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Coins")
+        switch (other.tag)
         {
-            GameManager.Instance.IncreaseCoins();
-            Destroy(other.gameObject);
+            case "Coins":
+                GameManager.Instance.IncreaseCoins();
+                Destroy(other.gameObject);
+                break;
+            case "PUCoin":
+                _powerUpController.PowerUpUse(PowerUpController.PowerUp.Type.COINS_SPAWN);
+                Destroy(other.gameObject);
+                break;
+            case "PUPoints":
+                _powerUpController.PowerUpUse(PowerUpController.PowerUp.Type.MULTYPLIER);
+                Destroy(other.gameObject);
+                break;
+            case "PUImmortal":
+                _powerUpController.PowerUpUse(PowerUpController.PowerUp.Type.IMMORTALITY); 
+                Destroy(other.gameObject);
+                break;
+            default: 
+                break;
+
         }
     }
 

@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Coins
+  - PUCoin
+  - PUPoints
+  - PUImmortal
   layers:
   - Default
   - TransparentFX

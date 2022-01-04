@@ -18,6 +18,11 @@ public class EnemyBehavior : MonoBehaviour
             _playerController = other.GetComponent<PlayerController>();
             if (_playerController)
             {
+                if (_playerController.IsImmortal == true)
+                {
+                    return;
+                }
+
                 if (_playerController.CanBeChange)
                 {
                     _playerController.PlayerPoints -= Damage;

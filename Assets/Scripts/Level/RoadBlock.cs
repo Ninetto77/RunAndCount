@@ -8,16 +8,39 @@ public class RoadBlock : MonoBehaviour
     public int coinChance;
 
     private Vector3 move ;
+    private bool isCoinsSpawn;
 
     void Start()
     {
         move = Vector3.forward;
-        CoinsSpawn.SetActive(Random.Range(1, 100) <= coinChance);
+        PowerUpController.CoinsPowerUpEvent += BlockCoinsSpawn;
+
+        isCoinsSpawn = Random.Range(1, 100) <= coinChance;
+        CoinsSpawn.SetActive(isCoinsSpawn);
     }
 
     
     void Update()
     {
         transform.Translate(move* Time.deltaTime * GameManager.Instance.CurrentMoveSpeed);
+    }
+
+    void BlockCoinsSpawn(bool active)
+    {
+        if (active)
+        {
+            CoinsSpawn.SetActive(true);
+            return;
+        }
+
+        if (!isCoinsSpawn)
+        {
+            CoinsSpawn.SetActive(false);
+        }
+    }
+
+    private void OnDestroy()
+    {
+        PowerUpController.CoinsPowerUpEvent -= BlockCoinsSpawn;
     }
 }

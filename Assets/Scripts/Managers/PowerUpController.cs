@@ -10,11 +10,16 @@ public class PowerUpController : MonoBehaviour
         {
             MULTYPLIER,
             IMMORTALITY,
-            COINS_SPAW
+            COINS_SPAWN
+
         }
         public Type PowerUpType;
         public float Duration;
     }
+
+    public PlayerController player;
+    public delegate void OnCoinsPowerUp(bool active);
+    public static event OnCoinsPowerUp CoinsPowerUpEvent;
 
     private PowerUp[] powerUps = new PowerUp[3];
     private Coroutine[] powerUpCors = new Coroutine[3];
@@ -24,7 +29,16 @@ public class PowerUpController : MonoBehaviour
     {
         powerUps[0] = new PowerUp() { PowerUpType = PowerUp.Type.MULTYPLIER, Duration = 8 };
         powerUps[1] = new PowerUp() { PowerUpType = PowerUp.Type.IMMORTALITY, Duration = 5 };
-        powerUps[2] = new PowerUp() { PowerUpType = PowerUp.Type.COINS_SPAW, Duration = 7 };
+        powerUps[2] = new PowerUp() { PowerUpType = PowerUp.Type.COINS_SPAWN
+, Duration = 7 };
+    }
+
+    public void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            PowerUpUse(PowerUp.Type.COINS_SPAWN);
+        }
     }
 
     public void PowerUpUse(PowerUp.Type type)
@@ -34,16 +48,19 @@ public class PowerUpController : MonoBehaviour
 
         switch(type)
         {
-            case PowerUp.Type.COINS_SPAW:
-
+            case PowerUp.Type.COINS_SPAWN
+:
+                if (CoinsPowerUpEvent != null)
+                {
+                    CoinsPowerUpEvent(true);
+                }
                 break;
             case PowerUp.Type.IMMORTALITY:
-
+                player.ChangeImmortality(true);
                 break;
             case PowerUp.Type.MULTYPLIER:
                 GameManager.Instance.PowerUpMultiplier = 2;
                 break;
-
         }
     }
 
@@ -61,11 +78,15 @@ public class PowerUpController : MonoBehaviour
         powerUpCors[(int)type] = null;
         switch (type)
         {
-            case PowerUp.Type.COINS_SPAW:
-
+            case PowerUp.Type.COINS_SPAWN
+:
+                if (CoinsPowerUpEvent != null)
+                {
+                    CoinsPowerUpEvent(false);
+                }
                 break;
             case PowerUp.Type.IMMORTALITY:
-
+                player.ChangeImmortality(false);
                 break;
             case PowerUp.Type.MULTYPLIER:
                 GameManager.Instance.PowerUpMultiplier = 1;

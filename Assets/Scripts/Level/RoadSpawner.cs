@@ -14,7 +14,6 @@ public class RoadSpawner : MonoBehaviour
     private float startblockZPos;
     private float blockLength = 0 ;
     private int blockCount = 7;
-    private int safeZone = 100;
 
     public Transform PlayerTransform;
     List<GameObject> CurrentBlocks = new List<GameObject>();
@@ -36,7 +35,7 @@ public class RoadSpawner : MonoBehaviour
     {
         currentblockZPos = startblockZPos;
         PlayerTransform.position = startPosition;
-        //Destroy(StartBlock);
+        Destroy(StartBlock);
 
         var _player = PlayerTransform.gameObject.GetComponent<PlayerController>();
         if (_player)

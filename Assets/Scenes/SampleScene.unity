@@ -1850,6 +1850,10 @@ MonoBehaviour:
   - {fileID: 205166609}
   - {fileID: 1095378094}
   - {fileID: 62538693}
+  Points: 0
+  PointBaseValue: 3
+  PointMultiplier: 1
+  PowerUpMultiplier: 1
   LoseGameWindow: {fileID: 1827871798}
   ShopWindow: {fileID: 1925230556}
   GameWindow: {fileID: 1205218139}
@@ -1979,12 +1983,10 @@ MonoBehaviour:
   Speed: {x: 0, y: -10, z: 10}
   SpeedForce: 10
   JumpForce: 350
-  Points: 0
-  PointBaseValue: 3
-  PointMultiplier: 1
   CanBeChange: 0
   PlayerPoints: 0
   BestCountValue: 0
+  IsImmortal: 0
 --- !u!54 &826103316
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2026,6 +2028,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d81e081d0d521e042902838cb4d12da9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 826103315}
 --- !u!1 &868489408
 GameObject:
   m_ObjectHideFlags: 0
@@ -5074,7 +5077,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a54b04291d20d214581990d8691b9bba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CoinsSpawn: {fileID: 0}
+  CoinsSpawn: {fileID: 1188554432}
   coinChance: 75
 --- !u!4 &6175970875612363256
 Transform:

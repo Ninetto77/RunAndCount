@@ -66,7 +66,7 @@ public class GameManager : Singleton<GameManager>
 
         CountTxt.text = ((int)Points).ToString();
         CurrentMoveSpeed -= .1f * Time.deltaTime;
-        CurrentMoveSpeed = Mathf.Clamp(CurrentMoveSpeed, -10, -20);
+        CurrentMoveSpeed = Mathf.Clamp(CurrentMoveSpeed, -20, -10);
     }
 
     public void IncreaseCoins()
