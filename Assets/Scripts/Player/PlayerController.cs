@@ -97,24 +97,20 @@ public class PlayerController : MonoBehaviour
         {
             case "Coins":
                 GameManager.Instance.IncreaseCoins();
-                Destroy(other.gameObject);
                 break;
             case "PUCoin":
                 _powerUpController.PowerUpUse(PowerUpController.PowerUp.Type.COINS_SPAWN);
-                Destroy(other.gameObject);
                 break;
             case "PUPoints":
                 _powerUpController.PowerUpUse(PowerUpController.PowerUp.Type.MULTYPLIER);
-                Destroy(other.gameObject);
                 break;
             case "PUImmortal":
                 _powerUpController.PowerUpUse(PowerUpController.PowerUp.Type.IMMORTALITY); 
-                Destroy(other.gameObject);
                 break;
             default: 
-                break;
-
+                return;
         }
+        Destroy(other.gameObject);
     }
 
     private void OnTriggerStay(Collider other)
