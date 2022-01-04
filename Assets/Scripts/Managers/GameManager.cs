@@ -2,19 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+
     public enum GameTypes
     {
         Play,
         Menu,
         Finish
     }
+
 public class GameManager : Singleton<GameManager>
 {
     public PlayerController _player;
     public RoadSpawner _roadSpawner;
-    public float MoveSpeed;
+    public float CurrentMoveSpeed;
+    public float BaseMoveSpeed;
     public List<Skin> Skins;
 
+    [Header("Points")]
+    public float Points;
+    public float PointBaseValue;
+    public float PointMultiplier;
+    [ReadOnly]
+    public float PowerUpMultiplier = 1;
 
     [Header("UI")]
     public DisplayedUIPanel LoseGameWindow;
@@ -38,6 +47,7 @@ public class GameManager : Singleton<GameManager>
     public float Coins;
     public GameTypes GameType = GameTypes.Menu;
 
+
     void Update()
     {
         if (! _player)
@@ -50,9 +60,13 @@ public class GameManager : Singleton<GameManager>
             return;
         }
 
-        CountTxt.text = ((int)_player.Points).ToString();
-        MoveSpeed -= .1f * Time.deltaTime;
-        MoveSpeed = Mathf.Clamp(MoveSpeed, -10, -20);
+        Points += PointBaseValue * PointMultiplier * PowerUpMultiplier * Time.deltaTime;
+        PointMultiplier += 0.05f * Time.deltaTime;
+        PointMultiplier = Mathf.Clamp(PointMultiplier, 1, 10);
+
+        CountTxt.text = ((int)Points).ToString();
+        CurrentMoveSpeed -= .1f * Time.deltaTime;
+        CurrentMoveSpeed = Mathf.Clamp(CurrentMoveSpeed, -10, -20);
     }
 
     public void IncreaseCoins()
@@ -73,6 +87,8 @@ public class GameManager : Singleton<GameManager>
         LoseGameWindow.ClosePanel();
         Time.timeScale = 1;
         UpdatePointsTxt();
+        CurrentMoveSpeed = BaseMoveSpeed;
+       
     }
 
     public void FinishGame()

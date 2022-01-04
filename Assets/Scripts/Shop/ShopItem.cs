@@ -66,6 +66,9 @@ public class ShopItem : MonoBehaviour
             case ItemType.SECOND_SKIN:
                 GameManager.Instance.ActiveSkin(1);
                 break;
+            case ItemType.THIRD_SKIN:
+                GameManager.Instance.ActiveSkin(2);
+                break;
         }
     }
 }

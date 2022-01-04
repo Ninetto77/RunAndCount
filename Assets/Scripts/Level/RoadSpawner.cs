@@ -26,6 +26,7 @@ public class RoadSpawner : MonoBehaviour
         startblockZPos = StartBlock.transform.position.z;
         blockLength = StartBlock.gameObject.GetComponent<BoxCollider>().bounds.size.z;
         startPosition = PlayerTransform.position;
+        //Destroy(StartBlock);
 
         StartGame();
 
@@ -35,12 +36,14 @@ public class RoadSpawner : MonoBehaviour
     {
         currentblockZPos = startblockZPos;
         PlayerTransform.position = startPosition;
+        //Destroy(StartBlock);
 
         var _player = PlayerTransform.gameObject.GetComponent<PlayerController>();
         if (_player)
         {
             _player.PlayerPoints = 1;
-            _player.Points = 0;
+            GameManager.Instance.Points = 0;
+            GameManager.Instance.PointMultiplier = 1;
         }
 
 

@@ -8,9 +8,6 @@ public class PlayerController : MonoBehaviour
     public Vector3 Speed;
     public float SpeedForce = 100;
     public float JumpForce;
-    public float Points;
-    public float PointBaseValue;
-    public float PointMultiplier;
 
     [HideInInspector]
     public bool CanBeChange;
@@ -40,9 +37,7 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        Points += PointBaseValue * PointMultiplier*Time.deltaTime;
-        PointMultiplier += 0.05f * Time.deltaTime;
-        PointMultiplier = Mathf.Clamp(PointMultiplier, 1, 10);
+
 
         //_rigidbody.velocity = new Vector3(Speed.x >= 0 ? Speed.x : _rigidbody.velocity.x,
         //                                 Speed.y >= 0 ? Speed.y : _rigidbody.velocity.y,
@@ -72,9 +67,9 @@ public class PlayerController : MonoBehaviour
 
         if (PlayerPoints <= 0)
         {
-            if (Points > BestCountValue)
+            if (GameManager.Instance.Points > BestCountValue)
             {
-                BestCountValue = Points;
+                BestCountValue = GameManager.Instance.Points;
             }
             GameManager.Instance.FinishGame();
         }

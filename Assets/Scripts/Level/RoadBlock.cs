@@ -18,6 +18,6 @@ public class RoadBlock : MonoBehaviour
     
     void Update()
     {
-        transform.Translate(move* Time.deltaTime * GameManager.Instance.MoveSpeed);
+        transform.Translate(move* Time.deltaTime * GameManager.Instance.CurrentMoveSpeed);
     }
 }
