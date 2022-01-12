@@ -26,23 +26,32 @@ public class GameManager : Singleton<GameManager>
     public float PowerUpMultiplier = 1;
 
     [Header("UI")]
+    public DisplayedUIPanel MainMenuWindow;
     public DisplayedUIPanel LoseGameWindow;
     public DisplayedUIPanel ShopWindow;
     public DisplayedUIPanel GameWindow;
+    public DisplayedUIPanel PauseWindow;
+
 
     [Header("Text UI in Game")]
     public Text CoinsTxt;
     public Text PlayerPointsTxt;
     public Text CountTxt;
-    private Text BestCountTxt;
+
 
     [Header("Text UI Loose")]
     public Text CoinsLoseTxt;
-    public Text PlayerPointsLoseTxt;
+    public Text PointsLoseTxt;
+    public Text BestCountTxt;
 
     [Header("Text UI in Shop")]
     public Text CoinsShopTxt;
 
+    [Header("Text UI in Pause")]
+    public Text CoinsPauseTxt;
+
+    [ReadOnly]
+    public float CurrentCoins;
     [ReadOnly]
     public float Coins;
     public GameTypes GameType = GameTypes.Menu;
@@ -71,7 +80,7 @@ public class GameManager : Singleton<GameManager>
 
     public void IncreaseCoins()
     {
-        Coins++;
+        CurrentCoins++;
         RefreshCoins();
     }
 
@@ -85,26 +94,61 @@ public class GameManager : Singleton<GameManager>
         GameType = GameTypes.Play;
         _roadSpawner.StartGame();
         LoseGameWindow.ClosePanel();
+        PauseWindow.ClosePanel();
+        MainMenuWindow.ClosePanel();
+        GameWindow.OpenPanel();
         Time.timeScale = 1;
         UpdatePointsTxt();
+        RefreshCoins();
+
         CurrentMoveSpeed = BaseMoveSpeed;
-       
+        Coins = PlayerPrefs.GetFloat("Coins");
     }
+
+    public void PauseGame(bool IsPaused)
+    {
+        if (IsPaused)
+        {
+            GameType = GameTypes.Menu;
+            PauseWindow.OpenPanel();
+            Time.timeScale = 0;
+        }
+        else
+        {
+            GameType = GameTypes.Play;
+            PauseWindow.ClosePanel();
+            Time.timeScale = 1;
+        }
+    }
+
 
     public void FinishGame()
     {
         GameType = GameTypes.Finish;
         LoseGameWindow.OpenPanel();
+        GameWindow.ClosePanel();
         Time.timeScale = 0;
-        //BestCountTxt.text = _player.BestCountValue.ToString();
+        BestCountTxt.text = "Best Count: " + ((int)PlayerPrefs.GetFloat("BestCount")).ToString();
+        PointsLoseTxt.text = "Current Count: " + ((int)Points).ToString();
+
         RefreshCoins();
+        Coins = PlayerPrefs.GetFloat("Coins") + CurrentCoins; 
+        PlayerPrefs.SetFloat("Coins", Coins);
+    }
+
+    public void OpenMainMenuGame()
+    {
+        GameType = GameTypes.Menu;
+        LoseGameWindow.ClosePanel();
+        PauseWindow.ClosePanel();
+        GameWindow.ClosePanel();
+        MainMenuWindow.OpenPanel();
+        Time.timeScale = 0;
     }
 
     public void CloseShopWindow()
     {
-        ShopWindow.ClosePanel();
-        GameWindow.OpenPanel();
-        GameType = GameTypes.Play;
+        ShopWindow.ClosePanel(); 
     }
 
     public void OpenShopWindow()
@@ -118,8 +162,9 @@ public class GameManager : Singleton<GameManager>
     public void RefreshCoins()
     {
         CoinsShopTxt.text = Coins.ToString();
-        CoinsTxt.text = Coins.ToString();
-        CoinsLoseTxt.text = Coins.ToString();
+        CoinsTxt.text = CurrentCoins.ToString();
+        CoinsLoseTxt.text = CurrentCoins.ToString();
+        CoinsPauseTxt.text = CurrentCoins.ToString();
     }
 
     public void ActiveSkin(int skinIndex)

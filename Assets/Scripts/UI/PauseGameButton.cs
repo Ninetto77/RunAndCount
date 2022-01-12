@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class OpenShopButton : MonoBehaviour
+public class PauseGameButton : MonoBehaviour
 {
     private Button _button;
 
     private void Start()
     {
         _button = GetComponent<Button>();
-        _button.onClick.AddListener(OpenShopWindow);
+        _button.onClick.AddListener(PauseGame);
     }
-    public void OpenShopWindow()
+    public void PauseGame()
     {
-        GameManager.Instance.OpenShopWindow();
+        GameManager.Instance.PauseGame(true);
     }
 }

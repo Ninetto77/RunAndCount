@@ -73,6 +73,7 @@ public class PlayerController : MonoBehaviour
             if (GameManager.Instance.Points > BestCountValue)
             {
                 BestCountValue = GameManager.Instance.Points;
+                PlayerPrefs.SetFloat("BestCount", BestCountValue);
             }
             _powerUpController.ResetAllPowerUps() ;
             GameManager.Instance.FinishGame();

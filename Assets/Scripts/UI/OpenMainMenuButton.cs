@@ -3,17 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class OpenShopButton : MonoBehaviour
+public class OpenMainMenuButton : MonoBehaviour
 {
     private Button _button;
 
     private void Start()
     {
         _button = GetComponent<Button>();
-        _button.onClick.AddListener(OpenShopWindow);
+        _button.onClick.AddListener(OpenMainMenu);
     }
-    public void OpenShopWindow()
+
+    private void OpenMainMenu()
     {
-        GameManager.Instance.OpenShopWindow();
+        GameManager.Instance.OpenMainMenuGame();
     }
 }

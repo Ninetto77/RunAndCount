@@ -43,6 +43,9 @@ public class RoadSpawner : MonoBehaviour
             _player.PlayerPoints = 1;
             GameManager.Instance.Points = 0;
             GameManager.Instance.PointMultiplier = 1;
+            GameManager.Instance.CurrentCoins = 0;
+           // GameManager.Instance.CurrentCoins = 0;
+
         }
 
 

@@ -37,7 +37,7 @@ public class ShopItem : MonoBehaviour
 
     public bool CanBuy()
     {
-        return GameManager.Instance.Coins >= Cost;
+        return GameManager.Instance.CurrentCoins >= Cost;
     }
 
     public void BuyItem()
@@ -49,6 +49,7 @@ public class ShopItem : MonoBehaviour
 
         IsBought = true;
         GameManager.Instance.Coins -= Cost;
+        PlayerPrefs.SetFloat("Coins", GameManager.Instance.Coins);
         CheckButtons();
         GameManager.Instance.RefreshCoins();
     }
